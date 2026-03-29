@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 
 interface Tweet {
   id: string;
@@ -14,17 +13,78 @@ interface SentimentResult {
   tweets: Tweet[];
   analyzedAt: string;
   cached?: boolean;
+  stale?: boolean;
 }
 
-// In-memory cache (resets on cold start, good enough for serverless)
-let cache: { data: SentimentResult | null; timestamp: number } = {
-  data: null,
-  timestamp: 0,
-};
+// ── Keyword lists ────────────────────────────────────────────────────────────
+const BULLISH_KEYWORDS: [string, number][] = [
+  ["bullish", 3], ["long", 2], ["buy", 2], ["buying", 2], ["accumulate", 3],
+  ["accumulating", 3], ["breakout", 2], ["bounce", 1], ["support", 1],
+  ["higher", 1], ["upside", 2], ["target", 1], ["moon", 2], ["pump", 2],
+  ["rally", 2], ["reversal", 1], ["bottom", 2], ["dip", 1], ["add", 1],
+  ["adding", 1], ["calls", 1], ["call", 1], ["up", 1], ["green", 1],
+  ["recover", 1], ["recovery", 1], ["strong", 1], ["strength", 1],
+  ["hold", 1], ["holding", 1], ["hodl", 2], ["break", 1], ["ath", 2],
+  ["all time high", 3], ["conviction", 2], ["confident", 2],
+];
 
-const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+const BEARISH_KEYWORDS: [string, number][] = [
+  ["bearish", 3], ["short", 2], ["sell", 2], ["selling", 2], ["dump", 2],
+  ["dumping", 2], ["correction", 2], ["breakdown", 2], ["resistance", 1],
+  ["lower", 1], ["downside", 2], ["risk", 1], ["caution", 2], ["careful", 1],
+  ["puts", 1], ["put", 1], ["down", 1], ["red", 1], ["drop", 1],
+  ["falling", 1], ["bear", 2], ["macro", 1], ["hedge", 1], ["hedging", 1],
+  ["exit", 2], ["stop", 1], ["liquidation", 2], ["fear", 2], ["worried", 2],
+  ["concern", 1], ["concerning", 1], ["weak", 1], ["weakness", 1],
+  ["rejected", 1], ["rejection", 1], ["failed", 1], ["fail", 1],
+];
 
-// Public nitter instances — tried in order until one responds
+function scoreTweet(text: string): number {
+  const lower = text.toLowerCase();
+  let score = 0;
+  for (const [kw, weight] of BULLISH_KEYWORDS) {
+    if (lower.includes(kw)) score += weight;
+  }
+  for (const [kw, weight] of BEARISH_KEYWORDS) {
+    if (lower.includes(kw)) score -= weight;
+  }
+  return score;
+}
+
+function analyzeSentiment(tweets: Tweet[]): Pick<SentimentResult, "sentiment" | "summary" | "narrative"> {
+  // Score every tweet
+  const scored = tweets.map((t) => ({ tweet: t, score: scoreTweet(t.text) }));
+
+  const totalScore = scored.reduce((sum, s) => sum + s.score, 0);
+
+  const sentiment: SentimentResult["sentiment"] =
+    totalScore > 2 ? "bullish" : totalScore < -2 ? "bearish" : "neutral";
+
+  // Pick most signal-heavy tweet as summary
+  const sorted = [...scored].sort((a, b) => Math.abs(b.score) - Math.abs(a.score));
+  const topTweet = sorted[0]?.tweet;
+
+  // Build summary line
+  const label = sentiment === "bullish" ? "bullish 📈" : sentiment === "bearish" ? "bearish 📉" : "neutral 😐";
+  const summary = topTweet
+    ? `Taiki is ${label} — "${topTweet.text.slice(0, 120)}${topTweet.text.length > 120 ? "…" : ""}"`
+    : `Taiki appears ${label} based on recent posts.`;
+
+  // Build narrative from top 3 signal tweets (deduplicated)
+  const topThree = sorted
+    .filter((s) => s.score !== 0)
+    .slice(0, 3)
+    .map((s) => s.tweet.text.slice(0, 140));
+
+  const narrative =
+    topThree.length > 0
+      ? topThree.join(" / ")
+      : "Not enough signal in recent posts to form a clear narrative.";
+
+  return { sentiment, summary, narrative };
+}
+
+// ── Nitter RSS fetching ──────────────────────────────────────────────────────
 const NITTER_INSTANCES = [
   "https://nitter.privacydev.net",
   "https://nitter.poast.org",
@@ -40,8 +100,6 @@ function parseRSS(xml: string): Tweet[] {
 
   while ((match = itemRegex.exec(xml)) !== null) {
     const item = match[1];
-
-    // Title can be CDATA-wrapped or plain
     const titleMatch =
       item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) ||
       item.match(/<title>([\s\S]*?)<\/title>/);
@@ -49,10 +107,7 @@ function parseRSS(xml: string): Tweet[] {
     const dateMatch = item.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
 
     if (!titleMatch) continue;
-
-    // Strip any residual HTML tags (nitter sometimes includes them in titles)
     const text = titleMatch[1].replace(/<[^>]*>/g, "").trim();
-    // Skip RT noise
     if (text.startsWith("RT by")) continue;
 
     tweets.push({
@@ -75,19 +130,11 @@ async function fetchTweetsFromNitter(): Promise<Tweet[]> {
         signal: AbortSignal.timeout(6000),
         next: { revalidate: 0 },
       });
-
-      if (!res.ok) {
-        errors.push(`${instance}: HTTP ${res.status}`);
-        continue;
-      }
+      if (!res.ok) { errors.push(`${instance}: HTTP ${res.status}`); continue; }
 
       const xml = await res.text();
       const tweets = parseRSS(xml);
-
-      if (tweets.length === 0) {
-        errors.push(`${instance}: parsed 0 tweets`);
-        continue;
-      }
+      if (tweets.length === 0) { errors.push(`${instance}: 0 tweets parsed`); continue; }
 
       return tweets;
     } catch (err) {
@@ -98,48 +145,22 @@ async function fetchTweetsFromNitter(): Promise<Tweet[]> {
   throw new Error(`All nitter instances failed:\n${errors.join("\n")}`);
 }
 
+// ── Cache ────────────────────────────────────────────────────────────────────
+let cache: { data: SentimentResult | null; timestamp: number } = { data: null, timestamp: 0 };
+const CACHE_TTL = 30 * 60 * 1000;
+
+// ── Route handler ────────────────────────────────────────────────────────────
 export async function GET() {
-  // Serve cache if still fresh
   if (cache.data && Date.now() - cache.timestamp < CACHE_TTL) {
     return NextResponse.json({ ...cache.data, cached: true });
   }
 
   try {
     const tweets = await fetchTweetsFromNitter();
-
-    const anthropic = new Anthropic();
-    const tweetsText = tweets.map((t, i) => `${i + 1}. ${t.text}`).join("\n\n");
-
-    const message = await anthropic.messages.create({
-      model: "claude-opus-4-6",
-      max_tokens: 512,
-      messages: [
-        {
-          role: "user",
-          content: `Analyze these recent posts from crypto analyst Taiki Maeda (@TaikiMaeda2) and determine if he is currently BULLISH or BEARISH on crypto/markets.
-
-Posts:
-${tweetsText}
-
-Respond ONLY with a JSON object — no markdown, no extra text:
-{
-  "sentiment": "bullish" | "bearish" | "neutral",
-  "summary": "One crisp sentence verdict",
-  "narrative": "2–3 sentences on his key thesis and what he is watching"
-}`,
-        },
-      ],
-    });
-
-    const content = message.content[0];
-    if (content.type !== "text") throw new Error("Unexpected Claude response type");
-
-    const analysis = JSON.parse(content.text);
+    const analysis = analyzeSentiment(tweets);
 
     const result: SentimentResult = {
-      sentiment: analysis.sentiment,
-      summary: analysis.summary,
-      narrative: analysis.narrative,
+      ...analysis,
       tweets: tweets.slice(0, 6),
       analyzedAt: new Date().toISOString(),
     };
@@ -148,7 +169,6 @@ Respond ONLY with a JSON object — no markdown, no extra text:
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    // If we have stale cache, return it with a warning rather than erroring
     if (cache.data) {
       return NextResponse.json({ ...cache.data, cached: true, stale: true });
     }
