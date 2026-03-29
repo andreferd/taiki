@@ -1,7 +1,7 @@
 {
-  "sentiment": "neutral",
-  "summary": "Taiki is neutral 😐 — latest video: \"The Bottom Is In.\"",
-  "narrative": "The Bottom Is In. / Why I’m Short $1.5M of ETH (It’s So Over) / Why I’m Shorting $1M of ETH (Again)",
+  "sentiment": "bullish",
+  "summary": "Maeda has pivoted from a sustained bearish campaign shorting Ethereum to explicitly calling a market bottom and anticipating higher prices in his latest video.",
+  "narrative": "After spending months aggressively shorting ETH for profit, his most recent analysis title 'The Bottom Is In' signals a decisive trend change where he argues against further downside. He now suggests that specific catalysts like STRC will provide the marginal buying needed to propel Bitcoin upward, encouraging viewers to prepare for the next leg up rather than remain in capital preservation mode.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-03-29T17:26:37.078Z",
+  "analyzedAt": "2026-03-29T17:57:21.631Z",
   "source": "youtube"
 }
