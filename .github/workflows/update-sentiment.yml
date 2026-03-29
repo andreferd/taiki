@@ -1,0 +1,32 @@
+name: Update Sentiment
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"   # every 30 minutes
+  workflow_dispatch:          # allow manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch tweets & analyze sentiment
+        run: node scripts/update-sentiment.mjs
+        env:
+          MOR_API_KEY: ${{ secrets.MOR_API_KEY }}
+
+      - name: Commit updated sentiment data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/sentiment.json
+          git diff --cached --quiet && echo "No changes" || \
+            (git commit -m "chore: update sentiment data [skip ci]" && git push)
