@@ -72,8 +72,8 @@ export default function Home() {
           <p className="font-semibold mb-1">Could not fetch sentiment</p>
           <p className="text-red-400/70">{data.error}</p>
           <p className="mt-3 text-zinc-500 text-xs">
-            Make sure <code className="text-zinc-300">X_BEARER_TOKEN</code> and{" "}
-            <code className="text-zinc-300">ANTHROPIC_API_KEY</code> are set.
+            Nitter RSS instances may be temporarily unavailable. The site will
+            retry on the next request.
           </p>
         </div>
       )}

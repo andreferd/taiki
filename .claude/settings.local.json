@@ -15,7 +15,15 @@
       "Bash(git push:*)",
       "WebFetch(domain:docs.mor.org)",
       "WebFetch(domain:mor.org)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(npx vercel:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://syndication.twitter.com/srv/timeline-profile/screen-name/TaikiMaeda2\" -A \"Mozilla/5.0\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://cdn.syndication.twimg.com/timeline/profile?screen_name=TaikiMaeda2&count=20\" -A \"Mozilla/5.0\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://nitter.net/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://nitter.tiekoetter.com/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://nitter.space/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")",
+      "Bash(curl -s \"https://cdn.syndication.twimg.com/timeline/profile?screen_name=TaikiMaeda2&count=5\" -A \"Mozilla/5.0\")",
+      "Bash(curl -s \"https://nitter.net/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")"
     ]
   }
 }

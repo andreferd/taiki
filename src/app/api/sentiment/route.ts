@@ -126,11 +126,11 @@ function keywordFallback(
 
 // ── Nitter RSS fetching ──────────────────────────────────────────────────────
 const NITTER_INSTANCES = [
+  "https://nitter.net",
+  "https://nitter.tiekoetter.com",
   "https://nitter.privacydev.net",
   "https://nitter.poast.org",
   "https://nitter.cz",
-  "https://nitter.1d4.us",
-  "https://nitter.esmailelbob.xyz",
 ];
 
 function parseRSS(xml: string): Tweet[] {
