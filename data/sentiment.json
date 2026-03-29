@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Maeda has pivoted from a profitable shorting campaign to calling the crypto market bottom and predicting higher Bitcoin prices.",
-  "narrative": "After aggressively shorting Ethereum through late 2025 and early 2026, his latest video explicitly declares 'The Bottom Is In' and outlines a thesis for Bitcoin moving higher. He argues that the market has washed out leverage and now presents an opportunity for upside, marking a complete reversal from his previous bearish positioning.",
+  "summary": "Taiki has pivoted from a successful bearish shorting phase to declaring that the crypto market bottom is in, predicting higher prices for Bitcoin.",
+  "narrative": "After capitalizing on the downside with large ETH shorts in late 2025, his most recent analysis identifies a market bottom and rejects the utility of standard 4-Year Cycle theories. He now suggests specific catalysts like STRC could propel BTC higher, marking a clear shift from his previous capital preservation stance.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-03-29T21:28:26.911Z",
+  "analyzedAt": "2026-03-29T21:56:26.463Z",
   "source": "youtube"
 }
