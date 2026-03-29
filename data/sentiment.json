@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Maeda has pivoted to a bullish outlook, explicitly calling a market bottom in his most recent video after months of shorting Ethereum.",
-  "narrative": "His thesis has evolved from aggressive shorting of ETH for significant profits to a belief that the market is now bottoming out with BTC poised for higher prices. He highlights STRC as a new form of potential leverage and critiques traditional cycle theories to support his call for a market reversal.",
+  "summary": "He has explicitly pivoted from a bearish stance to calling a market bottom, stating he believes crypto prices are poised to move higher.",
+  "narrative": "In his most recent video, Maeda argues that the crypto markets are bottoming and suggests specific catalysts like STRC could act as leverage to propel Bitcoin higher. This marks a significant shift from his earlier positioning where he successfully shorted Ethereum, as he now critiques the 4-Year Cycle theory to advocate for a new upward trajectory.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-03-29T11:51:46.317Z",
+  "analyzedAt": "2026-03-29T12:46:32.717Z",
   "source": "youtube"
 }
