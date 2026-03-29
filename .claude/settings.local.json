@@ -7,7 +7,12 @@
       "Bash(npm install:*)",
       "Bash(npm run:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(gh repo:*)",
+      "Bash(git --version)",
+      "Bash(security find-internet-password:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)"
     ]
   }
 }

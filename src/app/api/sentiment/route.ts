@@ -16,7 +16,7 @@ interface SentimentResult {
   cached?: boolean;
 }
 
-// In-memory cache (persists across requests in the same server instance)
+// In-memory cache (resets on cold start, good enough for serverless)
 let cache: { data: SentimentResult | null; timestamp: number } = {
   data: null,
   timestamp: 0,
@@ -24,48 +24,91 @@ let cache: { data: SentimentResult | null; timestamp: number } = {
 
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 
-async function fetchTweets(): Promise<Tweet[]> {
-  const bearerToken = process.env.X_BEARER_TOKEN;
-  if (!bearerToken) throw new Error("X_BEARER_TOKEN environment variable is not set");
+// Public nitter instances — tried in order until one responds
+const NITTER_INSTANCES = [
+  "https://nitter.privacydev.net",
+  "https://nitter.poast.org",
+  "https://nitter.cz",
+  "https://nitter.1d4.us",
+  "https://nitter.esmailelbob.xyz",
+];
 
-  // Resolve user ID
-  const userRes = await fetch(
-    "https://api.twitter.com/2/users/by/username/TaikiMaeda2",
-    { headers: { Authorization: `Bearer ${bearerToken}` } }
-  );
-  if (!userRes.ok) {
-    const err = await userRes.text();
-    throw new Error(`X API user lookup failed (${userRes.status}): ${err}`);
-  }
-  const { data: user } = await userRes.json();
+function parseRSS(xml: string): Tweet[] {
+  const tweets: Tweet[] = [];
+  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+  let match;
 
-  // Fetch recent tweets + replies
-  const tweetsRes = await fetch(
-    `https://api.twitter.com/2/users/${user.id}/tweets` +
-      `?max_results=20&tweet.fields=created_at,text&exclude=retweets`,
-    { headers: { Authorization: `Bearer ${bearerToken}` } }
-  );
-  if (!tweetsRes.ok) {
-    const err = await tweetsRes.text();
-    throw new Error(`X API timeline failed (${tweetsRes.status}): ${err}`);
+  while ((match = itemRegex.exec(xml)) !== null) {
+    const item = match[1];
+
+    // Title can be CDATA-wrapped or plain
+    const titleMatch =
+      item.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/) ||
+      item.match(/<title>([\s\S]*?)<\/title>/);
+    const linkMatch = item.match(/<link>([\s\S]*?)<\/link>/);
+    const dateMatch = item.match(/<pubDate>([\s\S]*?)<\/pubDate>/);
+
+    if (!titleMatch) continue;
+
+    // Strip any residual HTML tags (nitter sometimes includes them in titles)
+    const text = titleMatch[1].replace(/<[^>]*>/g, "").trim();
+    // Skip RT noise
+    if (text.startsWith("RT by")) continue;
+
+    tweets.push({
+      id: linkMatch?.[1]?.split("/").pop() ?? String(tweets.length),
+      text,
+      created_at: dateMatch?.[1] ?? "",
+    });
   }
-  const { data } = await tweetsRes.json();
-  return data || [];
+
+  return tweets.slice(0, 20);
+}
+
+async function fetchTweetsFromNitter(): Promise<Tweet[]> {
+  const errors: string[] = [];
+
+  for (const instance of NITTER_INSTANCES) {
+    try {
+      const res = await fetch(`${instance}/TaikiMaeda2/rss`, {
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; bot)" },
+        signal: AbortSignal.timeout(6000),
+        next: { revalidate: 0 },
+      });
+
+      if (!res.ok) {
+        errors.push(`${instance}: HTTP ${res.status}`);
+        continue;
+      }
+
+      const xml = await res.text();
+      const tweets = parseRSS(xml);
+
+      if (tweets.length === 0) {
+        errors.push(`${instance}: parsed 0 tweets`);
+        continue;
+      }
+
+      return tweets;
+    } catch (err) {
+      errors.push(`${instance}: ${err instanceof Error ? err.message : err}`);
+    }
+  }
+
+  throw new Error(`All nitter instances failed:\n${errors.join("\n")}`);
 }
 
 export async function GET() {
-  // Serve from cache if still fresh
+  // Serve cache if still fresh
   if (cache.data && Date.now() - cache.timestamp < CACHE_TTL) {
     return NextResponse.json({ ...cache.data, cached: true });
   }
 
   try {
-    const tweets = await fetchTweets();
+    const tweets = await fetchTweetsFromNitter();
 
     const anthropic = new Anthropic();
-    const tweetsText = tweets
-      .map((t, i) => `${i + 1}. ${t.text}`)
-      .join("\n\n");
+    const tweetsText = tweets.map((t, i) => `${i + 1}. ${t.text}`).join("\n\n");
 
     const message = await anthropic.messages.create({
       model: "claude-opus-4-6",
@@ -105,6 +148,10 @@ Respond ONLY with a JSON object — no markdown, no extra text:
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
+    // If we have stale cache, return it with a warning rather than erroring
+    if (cache.data) {
+      return NextResponse.json({ ...cache.data, cached: true, stale: true });
+    }
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
