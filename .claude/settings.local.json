@@ -23,7 +23,12 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://nitter.tiekoetter.com/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://nitter.space/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")",
       "Bash(curl -s \"https://cdn.syndication.twimg.com/timeline/profile?screen_name=TaikiMaeda2&count=5\" -A \"Mozilla/5.0\")",
-      "Bash(curl -s \"https://nitter.net/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")"
+      "Bash(curl -s \"https://nitter.net/TaikiMaeda2/rss\" -A \"Mozilla/5.0\")",
+      "Bash(node scripts/update-sentiment.mjs)",
+      "Bash(curl -s \"https://www.youtube.com/@TaikiMaeda/videos\" -A \"Mozilla/5.0\")",
+      "WebFetch(domain:www.youtube.com)",
+      "Bash(curl -s \"https://www.youtube.com/@thehumblefarmer\" -A \"Mozilla/5.0\")",
+      "Bash(curl -s \"https://www.youtube.com/feeds/videos.xml?channel_id=UC7B3Y1yrg4S7mmgoR-NsfxA\")"
     ]
   }
 }
