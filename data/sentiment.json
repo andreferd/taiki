@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Maeda has flipped bullish in his most recent video, explicitly calling a market bottom and predicting higher Bitcoin prices after months of bearish shorting.",
-  "narrative": "After aggressively shorting Ethereum and warning of lower prices throughout late 2025, Maedia shifted his outlook in early 2026. By March, he declared 'The Bottom Is In,' arguing against 4-year cycle topping theories and identifying new leverage mechanisms as drivers for a Bitcoin rally.",
+  "summary": "Maeda has pivoted from a profitable shorting campaign to calling the crypto market bottom and predicting higher Bitcoin prices.",
+  "narrative": "After aggressively shorting Ethereum through late 2025 and early 2026, his latest video explicitly declares 'The Bottom Is In' and outlines a thesis for Bitcoin moving higher. He argues that the market has washed out leverage and now presents an opportunity for upside, marking a complete reversal from his previous bearish positioning.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-03-29T20:32:38.011Z",
+  "analyzedAt": "2026-03-29T21:28:26.911Z",
   "source": "youtube"
 }
