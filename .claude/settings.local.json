@@ -12,7 +12,10 @@
       "Bash(git --version)",
       "Bash(security find-internet-password:*)",
       "Bash(git remote:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "WebFetch(domain:docs.mor.org)",
+      "WebFetch(domain:mor.org)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
