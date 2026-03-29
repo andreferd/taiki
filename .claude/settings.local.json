@@ -28,7 +28,14 @@
       "Bash(curl -s \"https://www.youtube.com/@TaikiMaeda/videos\" -A \"Mozilla/5.0\")",
       "WebFetch(domain:www.youtube.com)",
       "Bash(curl -s \"https://www.youtube.com/@thehumblefarmer\" -A \"Mozilla/5.0\")",
-      "Bash(curl -s \"https://www.youtube.com/feeds/videos.xml?channel_id=UC7B3Y1yrg4S7mmgoR-NsfxA\")"
+      "Bash(curl -s \"https://www.youtube.com/feeds/videos.xml?channel_id=UC7B3Y1yrg4S7mmgoR-NsfxA\")",
+      "Bash(curl -s \"https://www.youtube.com/feeds/videos.xml?channel_id=UCnW_PHSP2aAC8xqaj08GjEA\")",
+      "Bash(MOR_API_KEY=sk-zkBvPV.58459720a5a7da10ddaaeb85ed3becf16b0ab021bdf69ab4d62676a10a595bfa node scripts/update-sentiment.mjs)",
+      "Bash(curl -s -X POST \"https://api.mor.org/api/v1/chat/completions\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer sk-zkBvPV.58459720a5a7da10ddaaeb85ed3becf16b0ab021bdf69ab4d62676a10a595bfa\" -d '{\"\"model\"\":\"\"glm-5\"\",\"\"max_tokens\"\":100,\"\"messages\"\":[{\"\"role\"\":\"\"user\"\",\"\"content\"\":\"\"Reply with JSON: {\\\\\"\"test\\\\\"\":true}\"\"}]}')",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git fetch:*)",
+      "Bash(git reset:*)"
     ]
   }
 }

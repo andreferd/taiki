@@ -8,9 +8,14 @@
 
 import { writeFileSync } from "fs";
 
-const YOUTUBE_CHANNEL_ID = "UC7B3Y1yrg4S7mmgoR-NsfxA";
-const YOUTUBE_RSS = `https://www.youtube.com/feeds/videos.xml?channel_id=${YOUTUBE_CHANNEL_ID}`;
+// Both of Taiki's channels
+const YOUTUBE_CHANNELS = [
+  "UC7B3Y1yrg4S7mmgoR-NsfxA", // @thehumblefarmer (main)
+  "UCnW_PHSP2aAC8xqaj08GjEA", // @FarmerTaiki (new channel)
+];
 const MOR_API_BASE = "https://api.mor.org/api/v1";
+// Only the most recent N videos drive the sentiment verdict
+const SENTIMENT_WINDOW = 5;
 
 // ── YouTube Atom feed parsing ─────────────────────────────────────────────────
 function parseYouTubeAtom(xml) {
@@ -45,22 +50,28 @@ function parseYouTubeAtom(xml) {
   return entries.slice(0, 15);
 }
 
-async function fetchVideos() {
-  console.log("Fetching YouTube RSS…");
-  const res = await fetch(YOUTUBE_RSS, {
+async function fetchChannel(channelId) {
+  const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+  const res = await fetch(url, {
     headers: { "User-Agent": "Mozilla/5.0 (compatible; bot)" },
     signal: AbortSignal.timeout(10000),
   });
+  if (!res.ok) { console.warn(`Channel ${channelId}: HTTP ${res.status}`); return []; }
+  return parseYouTubeAtom(await res.text());
+}
 
-  if (!res.ok) throw new Error(`YouTube RSS failed: HTTP ${res.status}`);
+async function fetchVideos() {
+  console.log("Fetching YouTube RSS from both channels…");
+  const results = await Promise.all(YOUTUBE_CHANNELS.map(fetchChannel));
 
-  const xml = await res.text();
-  const videos = parseYouTubeAtom(xml);
+  // Merge and sort by date, newest first
+  const all = results.flat().sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
 
-  if (videos.length === 0) throw new Error("YouTube RSS returned 0 videos");
-
-  console.log(`✓ Fetched ${videos.length} videos from YouTube`);
-  return videos;
+  if (all.length === 0) throw new Error("No videos fetched from any channel");
+  console.log(`✓ Fetched ${all.length} total videos`);
+  return all;
 }
 
 // ── GLM-5 analysis ────────────────────────────────────────────────────────────
@@ -83,7 +94,9 @@ const BEARISH_KEYWORDS = [
 ];
 
 function keywordFallback(videos) {
-  const scored = videos.map((v) => {
+  // Only score the most recent SENTIMENT_WINDOW videos
+  const recent = videos.slice(0, SENTIMENT_WINDOW);
+  const scored = recent.map((v) => {
     const lower = v.text.toLowerCase();
     let score = 0;
     for (const [kw, w] of BULLISH_KEYWORDS) if (lower.includes(kw)) score += w;
@@ -115,7 +128,9 @@ async function analyzeWithGLM(videos) {
     return keywordFallback(videos);
   }
 
-  const content = videos
+  // Only send recent videos to the model
+  const recent = videos.slice(0, SENTIMENT_WINDOW);
+  const content = recent
     .map((v, i) => `${i + 1}. [${v.created_at.slice(0, 10)}] ${v.text}`)
     .join("\n\n");
 
@@ -127,7 +142,7 @@ async function analyzeWithGLM(videos) {
     },
     body: JSON.stringify({
       model: "glm-5",
-      max_tokens: 512,
+      max_tokens: 2048, // GLM-5 is a thinking model — needs tokens for reasoning before answering
       messages: [{
         role: "user",
         content: `Analyze these recent YouTube videos by crypto analyst Taiki Maeda (@thehumblefarmer / @TaikiMaeda2).
