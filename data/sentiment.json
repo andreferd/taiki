@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Taiki has pivoted from a successful bearish campaign to explicitly calling a market bottom, arguing that new leverage mechanisms will drive Bitcoin higher.",
-  "narrative": "After capitalizing on a prolonged Ethereum shorting trend through early 2026, his latest analysis suggests the correction phase has concluded. He now advocates for a bullish outlook, debunking standard 4-Year Cycle theories and pointing to specific catalysts like STRC as drivers for the next market leg up.",
+  "summary": "Maeda has flipped from a prolonged bearish stance to explicitly calling a market bottom, stating that the correction is over and Bitcoin is poised for higher prices.",
+  "narrative": "After spending late 2025 profitably shorting Ethereum, his most recent analysis suggests the market has bottomed and outlines a case for upward price movement driven by specific catalysts like STRC. He challenges standard 4-year cycle theories, arguing that the current market structure offers a buying opportunity rather than further downside.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-03-30T13:11:00.635Z",
+  "analyzedAt": "2026-03-30T14:48:47.520Z",
   "source": "youtube"
 }
