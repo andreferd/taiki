@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Taiki has shifted his stance from a prolonged bearish short campaign to explicitly calling a market bottom and anticipating higher Bitcoin prices.",
-  "narrative": "After months of profiting from bearish ETH shorts, his most recent analysis argues that the market correction is over and identifies STRC as a potential catalyst to propel BTC upward. He challenges the standard 4-year cycle theory, proposing an alternative framework that suggests the market has already hit its low and is preparing for the next leg up.",
+  "summary": "Taiki has pivoted from a profitable bearish shorting strategy to explicitly calling a market bottom and predicting higher Bitcoin prices.",
+  "narrative": "After aggressively shorting Ethereum for much of late 2025, his March 2026 analysis signals a major trend change where he argues that the market bottom is in. He now dismisses bearish 4-year cycle theories and suggests new capital flows and leverage will propel BTC upward.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-03-31T08:54:07.304Z",
+  "analyzedAt": "2026-03-31T10:03:10.098Z",
   "source": "youtube"
 }
