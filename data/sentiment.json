@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Taiki has flipped decisively bullish in his most recent video, explicitly stating 'The Bottom Is In' and predicting that BTC is poised to move higher.",
-  "narrative": "After spending late 2025 aggressively shorting ETH for large profits, he shifted his outlook in early 2026 to optimism on altcoins. He now argues that the market has bottomed, citing specific leverage mechanics and criticizing 4-Year Cycle theorists to support his thesis that prices are ready to rise.",
+  "summary": "Taiki has flipped bullish in his latest video, explicitly declaring that 'the bottom is in' for crypto and forecasting higher Bitcoin prices.",
+  "narrative": "After spending months profiting from a bearish stance on Ethereum, his most recent analysis marks a clear pivot, arguing that the market is forming a bottom rather than continuing to crash. He supports this view by suggesting specific marginal buying catalysts can propel BTC upward and critiques standard 4-year cycle theories to validate his new optimistic outlook.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-02T09:58:19.034Z",
+  "analyzedAt": "2026-04-02T10:56:17.224Z",
   "source": "youtube"
 }
