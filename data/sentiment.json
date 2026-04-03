@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Maeda has turned bullish in his most recent video, explicitly stating that the market bottom is in and anticipating higher Bitcoin prices.",
-  "narrative": "After spending late 2025 profitably shorting Ethereum, Maeda's latest analysis identifies a market bottom and suggests new buying vehicles like STRC could drive prices upward. He argues against the standard 4-Year Cycle bearishness, believing the market is poised for a new leg up.",
+  "summary": "Taiki has flipped bullish in his most recent video, explicitly claiming 'The Bottom Is In' and predicting higher BTC prices.",
+  "narrative": "After spending late 2025 aggressively shorting ETH and advocating for capital preservation, his latest analysis marks a regime shift where he believes the correction is over. He argues against 4-Year Cycle bearish theories and points to new marginal buying catalysts like STRC to drive prices upward.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-02T23:43:34.438Z",
+  "analyzedAt": "2026-04-03T09:50:24.013Z",
   "source": "youtube"
 }
