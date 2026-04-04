@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Taiki has pivoted to a bullish outlook in his most recent video, declaring that 'The Bottom Is In' and predicting Bitcoin is poised for higher prices.",
-  "narrative": "After spending months profitably shorting Ethereum, his latest analysis argues that the market has likely found a bottom, contradicting standard 4-year cycle theories. He is now watching STRC as a potential source of marginal buying to propel Bitcoin upward, suggesting the corrective phase is ending.",
+  "summary": "Taiki has shifted his stance to bullish, explicitly claiming that 'the bottom is in' for crypto markets and anticipating higher Bitcoin prices.",
+  "narrative": "After a multi-month period of profiting from ETH shorts, his latest analysis suggests the market is forming a bottom, citing STRC as a potential catalyst for marginal buying. He challenges the 4-Year Cycle theorists and argues that the setup is now in place for BTC to move higher, marking a clear pivot from his previous bearish positioning.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-04T14:31:30.089Z",
+  "analyzedAt": "2026-04-04T22:26:18.375Z",
   "source": "youtube"
 }
