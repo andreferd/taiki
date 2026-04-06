@@ -1,7 +1,7 @@
 {
-  "sentiment": "bullish",
-  "summary": "Maeda explicitly claims the market has bottomed and anticipates Bitcoin moving to higher prices.",
-  "narrative": "In his most recent video, he argues that the correction phase is over, citing STRC as a potential catalyst for marginal buying. He challenges the 4-Year Cycle consensus with a framework suggesting the market is ready to resume an uptrend.",
+  "sentiment": "neutral",
+  "summary": "Taiki is neutral 😐 — latest video: \"The Bottom Is In.\"",
+  "narrative": "The Bottom Is In. / Why I’m Short $1.5M of ETH (It’s So Over) / Why I’m Shorting $1M of ETH (Again)",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-06T08:52:15.715Z",
+  "analyzedAt": "2026-04-06T10:06:31.718Z",
   "source": "youtube"
 }
