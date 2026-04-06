@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Taiki Maeda has explicitly pivoted from a bearish stance to declaring that 'the bottom is in' for the crypto markets.",
-  "narrative": "After spending late 2025 aggressively shorting Ethereum and urging capital preservation, Maeda shifted his outlook in early 2026, noting growing optimism for altcoins. His most recent video confirms a bullish thesis, arguing that the market is bottoming and identifying potential catalysts to drive Bitcoin higher.",
+  "summary": "Maeda has shifted from a months-long bearish stance to calling a market bottom, predicting Bitcoin prices will move higher.",
+  "narrative": "After successfully shorting ETH for significant profits through late 2025, his most recent video explicitly claims 'The Bottom Is In' for crypto markets. He now advocates for accumulation, suggesting STRC as a leverage play and refuting 4-year cycle theories to forecast immediate upside for BTC.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-06T11:26:16.474Z",
+  "analyzedAt": "2026-04-06T14:42:55.080Z",
   "source": "youtube"
 }
