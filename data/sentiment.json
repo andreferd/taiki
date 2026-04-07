@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "In his most recent video, Taiki explicitly states 'The Bottom Is In' and predicts Bitcoin prices will move higher.",
-  "narrative": "After spending months profitably shorting Ethereum through late 2025, Taiki's narrative has shifted significantly in his latest update to calling a market bottom. He now argues that specific market mechanisms will propel BTC to higher prices, advising viewers to ignore bearish 4-Year Cycle theories and prepare for an uptrend.",
+  "summary": "Taiki has pivoted to a bullish outlook, declaring that the market bottom is in and predicting higher Bitcoin prices after months of profitable shorting.",
+  "narrative": "After spending late 2025 aggressively shorting ETH for half a million dollars in profits, his most recent video signals a trend reversal where he argues the correction has concluded. He now advocates for accumulation, suggesting structural tailwinds like STRC marginal buying will drive Bitcoin's next leg up.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-07T02:02:13.671Z",
+  "analyzedAt": "2026-04-07T12:09:17.726Z",
   "source": "youtube"
 }
