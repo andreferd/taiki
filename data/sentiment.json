@@ -1,7 +1,7 @@
 {
-  "sentiment": "neutral",
-  "summary": "Taiki is neutral 😐 — latest video: \"The Bottom Is In.\"",
-  "narrative": "The Bottom Is In. / Why I’m Short $1.5M of ETH (It’s So Over) / Why I’m Shorting $1M of ETH (Again)",
+  "sentiment": "bullish",
+  "summary": "Taiki Maeda has pivoted from a prolonged bearish short position to calling a market bottom, signaling that the worst of the drawdown is likely over.",
+  "narrative": "After aggressively shorting Ethereum throughout late 2025 for significant profits, his most recent analysis indicates a major shift in outlook, stating 'The Bottom Is In' as of March 2026. He now suggests that specific market catalysts and changing cycle dynamics will propel Bitcoin higher, advising viewers to look for buying opportunities rather than further downside.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-08T10:04:34.414Z",
+  "analyzedAt": "2026-04-08T11:29:39.196Z",
   "source": "youtube"
 }
