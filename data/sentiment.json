@@ -1,7 +1,7 @@
 {
   "sentiment": "bullish",
-  "summary": "Maeda has flipped decisively bullish in his latest video, explicitly declaring 'The Bottom Is In' and predicting higher Bitcoin prices after wrapping up his bearish positions.",
-  "narrative": "His most recent analysis argues that the crypto market is currently bottoming, suggesting STRC acts as marginal buying leverage to propel BTC upward while critiquing standard 4-year cycle theories. This marks a significant shift from his previous strategy of shorting Ethereum for substantial profits throughout late 2025, as he now looks for long opportunities.",
+  "summary": "Maeda has flipped bullish in his latest video, declaring 'The Bottom Is In' and predicting higher Bitcoin prices after months of bearish shorting.",
+  "narrative": "After aggressively shorting Ethereum for much of late 2025 and early 2026, his most recent analysis signals a major trend change where he believes the correction is finished. He cites specific catalysts like STRC and argues against common bearish cycle theories to support his view that BTC is ready to move higher.",
   "tweets": [
     {
       "id": "rYS8U5sbRqI",
@@ -34,6 +34,6 @@
       "created_at": "2025-10-30T22:15:47+00:00"
     }
   ],
-  "analyzedAt": "2026-04-11T11:54:26.775Z",
+  "analyzedAt": "2026-04-11T19:32:49.196Z",
   "source": "youtube"
 }
