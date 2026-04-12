@@ -1,9 +1,7 @@
 name: Update Sentiment
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"   # every 30 minutes
-  workflow_dispatch:          # allow manual trigger
+  workflow_dispatch: # manual trigger only
 
 jobs:
   update:
